@@ -66,7 +66,7 @@ export function DialogDemo({ open, setOpen }: DialogDemoProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[525px] bg-black">
+      <DialogContent className="w-full sm:max-w-[525px] bg-black">
         <DialogHeader>
           <DialogTitle>Add New Task</DialogTitle>
           <DialogDescription>
@@ -74,7 +74,7 @@ export function DialogDemo({ open, setOpen }: DialogDemoProps) {
           </DialogDescription>
         </DialogHeader>
         <Form {...form} >
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 ">
 
             <CustomInputField
               inputType='input'
@@ -111,7 +111,7 @@ export function DialogDemo({ open, setOpen }: DialogDemoProps) {
               render={({ field }) => (
                 <div>
                   <div className="flex  items-center justify-start gap-3  h-11 rounded-md  ">
-                    <Label htmlFor="date" className="text-left text-sm font-medium bg-black">Deadline : </Label>
+                    <Label htmlFor="date" className="text-left text-sm hidden sm:block font-medium bg-black">Deadline : </Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button

@@ -3,7 +3,7 @@ import React from 'react'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import { CustomFormFieldProps } from '@/lib/types'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Select, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '../ui/textarea'
 
 

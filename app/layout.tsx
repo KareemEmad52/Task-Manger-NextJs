@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 
 import { Flip, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "react-datepicker/dist/react-datepicker.css";
 import AuthProvider from "@/store/AuthContext";
 import { Toaster } from "@/components/ui/toaster";
 

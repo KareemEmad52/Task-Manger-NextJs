@@ -14,7 +14,7 @@ const TaskList = async ({filter}:{filter:string}) => {
       'token': `${cookies().get('authToken')?.value}`
     },
     next: {
-      revalidate: 0 
+      tags: ['tasks']  
     },
   })
   const tasks = await data.json()

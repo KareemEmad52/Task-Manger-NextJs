@@ -8,12 +8,13 @@ import { Button } from "@/components/ui/button"
 import { Form, } from "@/components/ui/form"
 import CustomInputField from './CustomInputField'
 import { loginFormSchema } from '@/lib/validations'
-import { login } from '@/lib/actions'
 import { ClipLoader } from 'react-spinners'
 import Link from 'next/link'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/store/AuthContext'
+import axios from 'axios'
+import { cookies } from 'next/headers'
 
 
 const LoginForm = () => {
@@ -32,27 +33,40 @@ const LoginForm = () => {
 
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    setIsLoading(true)
-
+    setIsLoading(true);
+  
     try {
-      const response = await login(values);
-
-      if (response.success) {
-        handleLogin(response.data.data.token);
-        toast.success('Loging in succesfully', {
-          autoClose: 2000
+      const res = await axios.post('https://task-mangement-express-ts.vercel.app/api/v1/users/login', values);
+  
+      if (res.data.success) {
+        cookies().set('authToken', res.data.data.token);
+        handleLogin(res.data.data.token);
+        toast.success('Logging in successfully', {
+          autoClose: 2000,
         });
-        router.push('/')
+        router.push('/');
       } else {
-        console.log(response.error);
-        toast.error(response.error || "Unknown error occurred.", {
-          autoClose: 2000
-        })
+        toast.error(res.data.error || "Unknown error occurred.", {
+          autoClose: 2000,
+        });
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Unknown error", {
-        autoClose: 2000
-      });
+      if (axios.isAxiosError(error)) {
+        // Axios-specific error
+        toast.error(error.response?.data?.message || 'An error occurred during the request', {
+          autoClose: 2000,
+        });
+      } else if (error instanceof Error) {
+        // General error (non-Axios)
+        toast.error(error.message, {
+          autoClose: 2000,
+        });
+      } else {
+        // Fallback for unknown error types
+        toast.error('An unexpected error occurred', {
+          autoClose: 2000,
+        });
+      }
     } finally {
       setIsLoading(false);
     }

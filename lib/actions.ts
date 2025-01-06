@@ -3,7 +3,8 @@
 import axios from "axios"
 import { loginFormData, registerFormData, TaskFormData } from "./types";
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
 export const login = async (data: loginFormData) =>{
   try {
@@ -11,7 +12,7 @@ export const login = async (data: loginFormData) =>{
     cookies().set('authToken', res.data.data.token);
     return {
       success: true,
-      data: res.data,  // Ensure this is serializable
+      data: res.data,
     };
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -76,7 +77,7 @@ export const addTask = async (data: TaskFormData,token: string | null) =>{
         token: `${token}`
       }
     })
-    revalidatePath('/')
+    revalidateTag('tasks')
     return {
       success: true,
       data: res.data, 
